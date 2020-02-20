@@ -36,6 +36,8 @@ public class WpController {
 //	http://localhost:8989/WomenEmpowerment/poststepregList
 //	http://localhost:8989/WomenEmpowerment/getPrgBooking
 //	http://localhost:8989/WomenEmpowerment/getFacBooking
+
+
 	@GetMapping(value="/getstepregList",produces="application/json")
 	public @ResponseBody List<StepRegister> getStepRegister() {
 		ArrayList<StepRegister> list = null;
@@ -47,6 +49,7 @@ public class WpController {
 		}
 		return list;
 	}
+
 	@PostMapping(value="/poststepregList", consumes="application/json")
 	public void postStepRegister(@RequestBody StepRegister reg) {
 		System.out.println(reg);
