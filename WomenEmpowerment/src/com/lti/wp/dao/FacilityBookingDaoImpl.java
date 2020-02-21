@@ -11,30 +11,34 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.lti.wp.entities.StepRegister;
+import com.lti.wp.entities.FacilityBooking;
+import com.lti.wp.entities.ProgrammeBooking;
 import com.lti.wp.exceptions.WpException;
 
 @Repository
-public class StepRegDaoImpl implements StepRegDao {
+public class FacilityBookingDaoImpl implements FacilityBookingDao{
 
 	@PersistenceContext
 	private EntityManager manager;
-	
-	public ArrayList<StepRegister> getStepRegister() throws WpException {
-		String strQry = "from StepRegister";
+
+	public ArrayList<FacilityBooking> getFacilityBooking() throws WpException {
+		String strQry = "from FacilityBooking";
 		Query qry = manager.createQuery(strQry);
-		List<StepRegister> list = qry.getResultList();
-		return (ArrayList<StepRegister>) list;
+		List<FacilityBooking> list = qry.getResultList();
+		return (ArrayList<FacilityBooking>) list;
 	}
+
 	
 	@Transactional(propagation=Propagation.REQUIRED)
-	@Override
-	public boolean postStepRegister(StepRegister reg) throws WpException {
+	public boolean postFacilityBooking(FacilityBooking reg) throws WpException {
+		
 		manager.persist(reg);
 		return true;
+
 	}
 
 	
+	
 
-
+	
 }

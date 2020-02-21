@@ -28,7 +28,7 @@ public class StepRegister {
 	private String email;
 	
 	@Column(name="USER_DOB")
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	private Date userDob;
 	
 	@Column(name="USER_PASSWORD")
