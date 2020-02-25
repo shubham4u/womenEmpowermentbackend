@@ -28,7 +28,7 @@ public class StepRegServiceImpl implements StepRegService {
 		return dao.postStepRegister(reg);
 	}
 
-	public boolean UserLogin(String email, String password) throws WpException {
-		return dao.UserLogin(email, password);
+	public StepRegister UserLogin(StepRegister u) throws WpException {
+		return dao.UserLogin(u);
 	}
 }

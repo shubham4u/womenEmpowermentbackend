@@ -35,22 +35,24 @@ public class StepRegDaoImpl implements StepRegDao {
 	}
 
 	@Override
-	public boolean UserLogin(String email, String password) throws WpException {
+	public StepRegister UserLogin(StepRegister u) throws WpException {
 		String strQry="select u from StepRegister u where u.email=:email and u.password=:password";
 		Query qry = manager.createQuery(strQry);
-		qry.setParameter("email", email);
-		qry.setParameter("password", password);
+		qry.setParameter("email", u.getEmail());
+		qry.setParameter("password", u.getPassword());
 		StepRegister stpreg=(StepRegister) qry.getSingleResult();
 		System.out.println(stpreg);
-		if(stpreg.getPassword().equals(password))
+		
+		if(u.getPassword().equals(stpreg.getPassword()))
 		{
 			System.out.println(true);
-			return true;
+			return stpreg;
 		}
 		else
 		{
-			System.out.println(false);
-			return false;
+//			System.out.println(false);
+			StepRegister stpregw=null;
+			return stpregw;
 		}
 	}
 

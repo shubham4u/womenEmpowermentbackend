@@ -9,4 +9,5 @@ public interface NgoDao {
 
 	public ArrayList<Ngo> getNgo() throws WpException;
 	public boolean postNgo(Ngo ngo) throws WpException;
+	public Ngo NgoLogin(Ngo n) throws WpException;
 }

@@ -6,10 +6,13 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Proxy;
@@ -22,10 +25,12 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "NGO_FACILITY")
-@JsonIgnoreProperties(value = { "ngo" }, allowSetters=true)
+//@JsonIgnoreProperties(value = { "ngo" }, allowSetters=true)
 public class NgoFacReg {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ngofacreg_seq")
+	@SequenceGenerator(name = "ngofacreg_seq", sequenceName = "NGO_FAC_SEQ", allocationSize = 1, initialValue = 500)
 	@Column(name = "N_FACILITY_ID")
 	private int n_FacId;
 
@@ -38,31 +43,33 @@ public class NgoFacReg {
 	@Column(name = "N_FACILITY_CITY")
 	private String n_FacCity;
 
-	@ManyToOne
-	@JoinColumn(name = "NGO_ID")
-	private Ngo ngo;
+	@Column(name="NGO_ID")
+	private int ngofc;
 	
+	/*@JsonIgnore
 	@OneToMany(
 			fetch = FetchType.EAGER,
 			cascade=CascadeType.ALL,
 			mappedBy ="ngofacreg"
 			)
-	private List<FacilityBooking> facilitybooking;
+	private List<FacilityBooking> facilitybooking;*/
 
-	public NgoFacReg(int n_FacId, String n_FacName, int n_FacCapacity, String n_FacCity, Ngo ngo) {
+	public NgoFacReg() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public NgoFacReg(int n_FacId, String n_FacName, int n_FacCapacity, String n_FacCity, int ngofc,
+			List<FacilityBooking> facilitybooking) {
 		super();
 		this.n_FacId = n_FacId;
 		this.n_FacName = n_FacName;
 		this.n_FacCapacity = n_FacCapacity;
 		this.n_FacCity = n_FacCity;
-		this.ngo = ngo;
+		this.ngofc = ngofc;
+//		this.facilitybooking = facilitybooking;
 	}
 
-	public NgoFacReg() {
-		super();
-	}
-
-	
 	public int getN_FacId() {
 		return n_FacId;
 	}
@@ -95,29 +102,27 @@ public class NgoFacReg {
 		this.n_FacCity = n_FacCity;
 	}
 
-	public Ngo getNgo() {
-		return ngo;
+	public int getNgofc() {
+		return ngofc;
 	}
 
-	public void setNgo(Ngo ngo) {
-		this.ngo = ngo;
+	public void setNgofc(int ngofc) {
+		this.ngofc = ngofc;
 	}
-	
 
-	public List<FacilityBooking> getFacilitybooking() {
+	/*public List<FacilityBooking> getFacilitybooking() {
 		return facilitybooking;
 	}
 
 	public void setFacilitybooking(List<FacilityBooking> facilitybooking) {
 		this.facilitybooking = facilitybooking;
-	}
+	}*/
 
-	@Override
+	/*@Override
 	public String toString() {
 		return "NgoFacReg [n_FacId=" + n_FacId + ", n_FacName=" + n_FacName + ", n_FacCapacity=" + n_FacCapacity
-				+ ", n_FacCity=" + n_FacCity + ", ngo=" + ngo + "]";
-	}
+				+ ", n_FacCity=" + n_FacCity + "]";
+	}*/
 
-	
 	
 }

@@ -9,8 +9,11 @@ import com.lti.wp.exceptions.WpException;
 
 public interface FacilityBookingService {
 	public ArrayList<FacilityBooking> getFacilityBooking() throws WpException;
-//	public boolean postFacilityBooking(FacilityBooking reg) throws WpException;
-	
-	public boolean postFacBooking(FacilityBooking ngofacbk) throws WpException;
+
+//	public int facCount(int facbkId) throws WpException;
+
+	public boolean postFacBooking(FacilityBooking facbk) throws WpException;
+
+	public boolean facCount(int nfacId, int facBkCount)  throws WpException;
 }
 

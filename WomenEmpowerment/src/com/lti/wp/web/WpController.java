@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -58,21 +58,22 @@ public class WpController {
 	@Autowired
 	private NgoFacRegService nfservice;
 
-	// http://localhost:8686/WomenEmpowermentV2/getstepLogList    
-	// http://localhost:8989/WomenEmpowerment/getFacBooking
+	//  http://localhost:8686/WomenEmpowermentV2/getstepLogList     
+	//  http://localhost:8989/WomenEmpowerment/getFacBooking		
 	
-	// http://localhost:8686/WomenEmpowermentV2/getregList
-	//	http://localhost:8989/WomenEmpowerment/getPrgBooking
+	//  http://localhost:8686/WomenEmpowermentV2/getregList		
+	//	http://localhost:8989/WomenEmpowerment/getProgBooking
 	//	http://localhost:8989/WomenEmpowerment/getngo
 	//	http://localhost:8989/WomenEmpowerment/getNgoProgReg
 	//	http://localhost:8989/WomenEmpowerment/getNgoFacReg
 
-	
-	// http://localhost:8989/WomenEmpowerment/postregList
+	//	http://localhost:8989/WomenEmpowerment/postFacBooking
+	//  http://localhost:8989/WomenEmpowerment/postregList
 	//	http://localhost:8989/WomenEmpowerment/poststepLogList
 	//	http://localhost:8989/WomenEmpowerment/postngo
 	//	http://localhost:8989/WomenEmpowerment/postNgoProgReg
 	//	http://localhost:8989/WomenEmpowerment/postNgoFacReg
+	//	http://localhost:8686/WomenEmpowermentV2/postProgBooking
 
 	@GetMapping(value = "/getregList", produces = "application/json")
 	public @ResponseBody List<StepRegister> getStepRegister() {
@@ -123,7 +124,7 @@ public class WpController {
 	}
 
 
-	@GetMapping(value = "/getPrgBooking", produces = "application/json")
+	@GetMapping(value = "/getProgBooking", produces = "application/json")
 	public @ResponseBody List<ProgrammeBooking> getProgrammeBooking() {
 		ArrayList<ProgrammeBooking> pblist = null;
 		try {
@@ -140,7 +141,7 @@ public class WpController {
 		ArrayList<FacilityBooking> fblist = null;
 		try {
 			fblist = fbservice.getFacilityBooking();
-			System.out.println(fblist);
+			System.out.println("From Controller: " + fblist);
 		} catch (WpException e) {
 			e.printStackTrace();
 		}
@@ -184,7 +185,7 @@ public class WpController {
 	public void postNgoProgReg(@RequestBody NgoProgReg reg) {
 		System.out.println(reg);
 		try {
-			System.out.println(reg.getNgo().getNgoid());
+//			System.out.println(reg.getNgopr().getNgoid());
 			boolean recInserted = nprservice.postNgoProgReg(reg);
 		} catch (WpException e) {
 			e.printStackTrace();
@@ -195,7 +196,7 @@ public class WpController {
 	public void postNgoFacReg(@RequestBody NgoFacReg nfreg) {
 		System.out.println(nfreg);
 		try {
-			System.out.println(nfreg.getNgo().getNgoid());
+//			System.out.println(nfreg.getNgofc().getNgoid());
 			boolean recInserted = nfservice.postNgoFacReg(nfreg);
 		} catch (WpException e) {
 			e.printStackTrace();
@@ -211,23 +212,47 @@ public class WpController {
 			e.printStackTrace();
 		}
 	}
-	
-	@PostMapping(value = "/validateUser", consumes = "application/json")
-	public boolean UserLogin(@RequestBody StepRegister u) throws WpException{
-		System.out.println(u);
-		return service.UserLogin(u.getEmail(), u.getPassword());
-	}
-	
-	// http://localhost:8989/WomenEmpowerment/postFacBooking
+
 	@PostMapping(value = "/postFacBooking", consumes = "application/json")
-	public void postFacBooking(@RequestBody FacilityBooking ngofacbk) {
-		System.out.println(ngofacbk);
+	public void postFacBooking(@RequestBody FacilityBooking facbk) {
+		System.out.println(facbk);
 		try {
-			boolean recInserted = fbservice.postFacBooking(ngofacbk);
+			boolean recInserted = fbservice.postFacBooking(facbk);
 		} catch (WpException e) {
 			e.printStackTrace();
 		}
 	}
 	
+	@PostMapping(value = "/postProgBooking", consumes = "application/json")
+	public void postProgrammeBooking(@RequestBody ProgrammeBooking progbk) {
+		System.out.println(progbk);
+		try {
+			boolean recInserted = pbservice.postProgrammeBooking(progbk);
+		} catch (WpException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@PostMapping(value = "/validateUser", consumes = "application/json")
+	public StepRegister UserLogin(@RequestBody StepRegister u) throws WpException{
+		System.out.println(u);
+		try {
+			StepRegister recInserted = service.UserLogin(u);
+		} catch (WpException e) {
+			e.printStackTrace();
+		}
+		return u;
+	}
+	
+	@PostMapping(value = "/validateNgo", consumes = "application/json")
+	public Ngo NgoLogin(@RequestBody Ngo n) throws WpException{
+		System.out.println(n.getNgoid());
+		try {
+			Ngo recInserted = ngservice.NgoLogin(n);
+		} catch (WpException e) {
+			e.printStackTrace();
+		}
+		return n;
+	}
 	
 }

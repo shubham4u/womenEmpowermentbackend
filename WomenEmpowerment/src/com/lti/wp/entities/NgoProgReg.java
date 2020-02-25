@@ -1,11 +1,15 @@
 package com.lti.wp.entities;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -16,10 +20,12 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "ngo_programme")
-@JsonIgnoreProperties(value = { "ngo" }, allowSetters=true)
+//@JsonIgnoreProperties(value = { "ngo" }, allowSetters=true)
 public class NgoProgReg {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ngoprogreg_seq")
+	@SequenceGenerator(name = "ngoprogreg_seq", sequenceName = "NGO_PROG_SEQ", allocationSize = 1, initialValue = 500)
 	@Column(name = "N_PROGRAMME_ID")
 	private int n_ProgId;
 
@@ -32,21 +38,25 @@ public class NgoProgReg {
 	@Column(name = "N_PROGRAMME_CAPACITY")
 	private int n_ProgCapacity;
 
-	@ManyToOne
-	@JoinColumn(name = "NGO_ID")
-	private Ngo ngo;
+	/*@ManyToOne(
+			cascade = CascadeType.ALL,
+			fetch = FetchType.EAGER
+			)*/
+	@Column(name="NGO_ID")
+	private int ngopr;
 
-	public NgoProgReg(int n_ProgId, String n_ProgName, String n_ProgCity, int n_ProgCapacity, Ngo ngo) {
+	public NgoProgReg() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public NgoProgReg(int n_ProgId, String n_ProgName, String n_ProgCity, int n_ProgCapacity, int ngopr) {
 		super();
 		this.n_ProgId = n_ProgId;
 		this.n_ProgName = n_ProgName;
 		this.n_ProgCity = n_ProgCity;
 		this.n_ProgCapacity = n_ProgCapacity;
-		this.ngo = ngo;
-	}
-
-	public NgoProgReg() {
-		super();
+		this.ngopr = ngopr;
 	}
 
 	public int getN_ProgId() {
@@ -81,20 +91,19 @@ public class NgoProgReg {
 		this.n_ProgCapacity = n_ProgCapacity;
 	}
 
-	public Ngo getNgo() {
-		return ngo;
+	public int getNgopr() {
+		return ngopr;
 	}
 
-	public void setNgo(Ngo ngo) {
-		this.ngo = ngo;
+	public void setNgopr(int ngopr) {
+		this.ngopr = ngopr;
 	}
 
-	@Override
+	/*@Override
 	public String toString() {
 		return "NgoProgReg [n_ProgId=" + n_ProgId + ", n_ProgName=" + n_ProgName + ", n_ProgCity=" + n_ProgCity
-				+ ", n_ProgCapacity=" + n_ProgCapacity + ", ngo=" + ngo + "]";
-	}
-	
-	
+				+ ", n_ProgCapacity=" + n_ProgCapacity + "]";
+	}*/
 
+	
 }

@@ -32,5 +32,28 @@ public class NgoDaoImpl implements NgoDao {
 		return true;
 	}
 
+	@Override
+	public Ngo NgoLogin(Ngo n) throws WpException {
+		System.out.println("I'm in dao" +n.getNgoemail() +","+n.getNgopassword() );
+		String strQry="select n from Ngo n where n.ngoemail=:ngoemail and n.ngopassword=:ngopassword";
+		Query qry = manager.createQuery(strQry);
+		qry.setParameter("ngoemail", n.getNgoemail());
+		qry.setParameter("ngopassword", n.getNgopassword());
+		Ngo ngologin=(Ngo) qry.getSingleResult();
+		System.out.println(ngologin);
+		
+		if(n.getNgopassword().equals(ngologin.getNgopassword()))
+		{
+//			System.out.println("true"+true);
+			return ngologin;
+		}
+		else
+		{
+//			System.out.println("False"+false);
+			Ngo ngolog=null;
+			return ngolog;
+		}
+	}
+
 	
 }

@@ -2,7 +2,10 @@ package com.lti.wp.entities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
@@ -10,6 +13,8 @@ import javax.persistence.Table;
 public class ProgrammeBooking {
 	
 	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "progbook_seq")
+	@SequenceGenerator(name = "progbook_seq", sequenceName = "PROGBOOK_SEQ", allocationSize = 1, initialValue = 500)
 	@Column(name="P_BOOKING_ID")
 	private int bookingid;
 	
@@ -54,10 +59,10 @@ public class ProgrammeBooking {
 		this.userid = userid;
 	}
 
-	@Override
+	/*@Override
 	public String toString() {
 		return "ProgrammeBooking [bookingid=" + bookingid + ", programmid=" + programmid + ", userid=" + userid + "]";
-	}
+	}*/
 	
 	
 	

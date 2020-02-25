@@ -7,8 +7,11 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Cascade;
@@ -19,10 +22,13 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name="ngo")
+
 public class Ngo {
 
 	@Id
 	@Column(name="NGO_ID")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ngo_seq")
+	@SequenceGenerator(name = "ngo_seq", sequenceName = "NGO_SEQ", allocationSize = 1, initialValue = 500)
 	private int ngoid;
 	
 	@Column(name="NGO_NAME")
@@ -62,14 +68,26 @@ public class Ngo {
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	private Date ngoestablishmentyear;
 	
-	@JsonIgnore
-	@OneToMany(cascade=CascadeType.ALL, mappedBy="ngo")
-	private List<NgoProgReg> ngoprogreg;
+	/*@JsonIgnore
+	@OneToMany(
+			cascade=CascadeType.ALL,
+			fetch = FetchType.EAGER,
+			mappedBy = "ngopr"
+			)
+	private List<NgoProgReg> ngoprogreg;*/
 
-	@JsonIgnore
-	@OneToMany(cascade=CascadeType.ALL, mappedBy="ngo")
+	/*@JsonIgnore
+	@OneToMany(
+			cascade=CascadeType.ALL, 
+			fetch = FetchType.EAGER, 
+			mappedBy="ngofc")
 	private List<NgoFacReg> ngofacreg;
-	
+*/
+	public Ngo() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
 	public Ngo(int ngoid, String ngoname, String ngoemail, String ngoaddress, long ngocontact, String ngoinchargename,
 			String ngoinchargeemail, String ngopassword, long ngoinchargecontactno, String ngoinchargeaddress,
 			long ngoinchargeadharno, int ngocertificateno, Date ngoestablishmentyear) {
@@ -87,39 +105,8 @@ public class Ngo {
 		this.ngoinchargeadharno = ngoinchargeadharno;
 		this.ngocertificateno = ngocertificateno;
 		this.ngoestablishmentyear = ngoestablishmentyear;
-	}
-
-	public Ngo() {
-		super();
-	}
-
-	@Override
-	public String toString() {
-		return "Ngo [ngoid=" + ngoid + ", ngoname=" + ngoname + ", ngoemail=" + ngoemail + ", ngoaddress=" + ngoaddress
-				+ ", ngocontact=" + ngocontact + ", ngoinchargename=" + ngoinchargename + ", ngoinchargeemail="
-				+ ngoinchargeemail + ", ngopassword=" + ngopassword + ", ngoinchargecontactno=" + ngoinchargecontactno
-				+ ", ngoinchargeaddress=" + ngoinchargeaddress + ", ngoinchargeadharno=" + ngoinchargeadharno
-				+ ", ngocertificateno=" + ngocertificateno + ", ngoestablishmentyear=" + ngoestablishmentyear + "]";
-	}
-	
-	
-
-
-
-	public List<NgoFacReg> getNgofacreg() {
-		return ngofacreg;
-	}
-
-	public void setNgofacreg(List<NgoFacReg> ngofacreg) {
-		this.ngofacreg = ngofacreg;
-	}
-
-	public List<NgoProgReg> getNgoprogreg() {
-		return ngoprogreg;
-	}
-
-	public void setNgoprogreg(List<NgoProgReg> ngoprogreg) {
-		this.ngoprogreg = ngoprogreg;
+		/*this.ngoprogreg = ngoprogreg;*/
+		/*this.ngofacreg = ngofacreg;*/
 	}
 
 	public int getNgoid() {
@@ -225,5 +212,33 @@ public class Ngo {
 	public void setNgoestablishmentyear(Date ngoestablishmentyear) {
 		this.ngoestablishmentyear = ngoestablishmentyear;
 	}
+
+	/*public List<NgoProgReg> getNgoprogreg() {
+		return ngoprogreg;
+	}
+
+	public void setNgoprogreg(List<NgoProgReg> ngoprogreg) {
+		this.ngoprogreg = ngoprogreg;
+	}*/
+
+	/*public List<NgoFacReg> getNgofacreg() {
+		return ngofacreg;
+	}
+
+	public void setNgofacreg(List<NgoFacReg> ngofacreg) {
+		this.ngofacreg = ngofacreg;
+	}*/
+
+	/*@Override
+	public String toString() {
+		return "Ngo [ngoid=" + ngoid + ", ngoname=" + ngoname + ", ngoemail=" + ngoemail + ", ngoaddress=" + ngoaddress
+				+ ", ngocontact=" + ngocontact + ", ngoinchargename=" + ngoinchargename + ", ngoinchargeemail="
+				+ ngoinchargeemail + ", ngopassword=" + ngopassword + ", ngoinchargecontactno=" + ngoinchargecontactno
+				+ ", ngoinchargeaddress=" + ngoinchargeaddress + ", ngoinchargeadharno=" + ngoinchargeadharno
+				+ ", ngocertificateno=" + ngocertificateno + ", ngoestablishmentyear=" + ngoestablishmentyear
+				+ "]";
+	}*/
+	
+	
 		
 }

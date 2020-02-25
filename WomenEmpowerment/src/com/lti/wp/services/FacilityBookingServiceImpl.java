@@ -24,9 +24,21 @@ public class FacilityBookingServiceImpl implements FacilityBookingService {
 	}
 	
 	@Transactional(propagation=Propagation.REQUIRES_NEW)
-	public boolean postFacBooking(FacilityBooking ngofacbk) throws WpException {
-		// TODO Auto-generated method stub
-		return dao.postFacBooking(ngofacbk);
+	public boolean facCount(int nfacId,int facBkCount) throws WpException {
+		boolean b = false;
+		int capacity=dao.getCapacity(nfacId);
+		int count = dao.facCount(nfacId);
+		count = count+facBkCount;
+		if(count<=capacity){
+			b=true;
+		}
+		return b;
+	}
+
+	@Transactional(propagation=Propagation.REQUIRES_NEW)
+	public boolean postFacBooking(FacilityBooking facbk) throws WpException {
+		
+		return dao.postFacBooking(facbk);
 	}
 
 }

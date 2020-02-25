@@ -10,6 +10,6 @@ public interface StepRegService {
 	public ArrayList<StepRegister> getStepRegister() throws WpException;
 	
 	public boolean postStepRegister(StepRegister reg) throws WpException;
-	public boolean UserLogin(String email, String password) throws WpException ;
-	
+
+	public StepRegister UserLogin(StepRegister u) throws WpException ;
 }

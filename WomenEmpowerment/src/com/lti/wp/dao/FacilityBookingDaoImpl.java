@@ -11,6 +11,8 @@ import javax.persistence.criteria.Fetch;
 import javax.persistence.criteria.Root;
 
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.lti.wp.entities.FacilityBooking;
 import com.lti.wp.entities.NgoFacReg;
@@ -24,50 +26,59 @@ public class FacilityBookingDaoImpl implements FacilityBookingDao{
 	private EntityManager manager;
 
 	public ArrayList<FacilityBooking> getFacilityBooking() throws WpException {
-//		String strQry = "select bk.bookingid  from FacilityBooking as bkdata where bkdata.facilitybk=1";
-//		String strQry = "select f from FacilityBooking f join fetch f.fbk c, f.ngofbk s where f.bookingid=1";
+
 		String strQry = "from FacilityBooking";
-//		CriteriaQuery<FacilityBooking> q = cb.createQuery(FacilityBooking.class);
-//		Root<FacilityBooking> c = q.from(FacilityBooking.class);
-//		Fetch<FacilityBooking, NgoFacReg> p = c.fetch("facilitybk");
-//		q.select(c);
-//		String strQry = "select f from FacilityBooking f join fetch f.facilitybk, f.useridbk";
-		
-//		String userdata = "from StepLogin";
-//		String ngodata = "from NgoFacReg";
-//		Query userqry = manager.createQuery(userdata);
-//		Query ngoqry = manager.createQuery(ngodata);
 		Query qry = manager.createQuery(strQry);
-		
-//		List<StepLogin> userList = userqry.getResultList();
-//		List<NgoFacReg> ngoList = ngoqry.getResultList();
 		List<FacilityBooking> list = qry.getResultList();
-//		System.out.println(list +","+userList +","+ ngoList);
-//		List ngomerged = new ArrayList(ngoList);
-//		List usermerged = new ArrayList(userList);
-//		ngomerged.addAll(ngoList);
-//		usermerged.addAll(userList);
-//		usermerged = ListUtils.union(list, ngoList);
-//		list = ListUtils.union(usermerged, userList);
-		System.out.println(list);
-		
+		//System.out.println(list);
 		return (ArrayList<FacilityBooking>) list;
 	}
 
 
 	@Override
-	public boolean postFacBooking(FacilityBooking ngofacbk) throws WpException {
+	public int getCapacity(int nfacId) throws WpException {
 
-		String strqry = "select count(facilityid)  from FacilityBooking  where facilityid=1";
+		String strqry = "select n from NgoFacReg n where n.n_FacId=:facbkid";
 		Query qry = manager.createQuery(strqry);
-		int count = (int) qry.getSingleResult();
-		System.out.println(count);
-//		manager.persist(ngofacbk);
-		return true;
+		qry.setParameter("facbkid", nfacId);
+		NgoFacReg reg = (NgoFacReg) qry.getSingleResult();
+		int capacity = reg.getN_FacCapacity();
+		return capacity;
+	}
+
+	@Override
+	public int facCount(int nfacId) throws WpException {
+
+		String strqry = "select f.ngofacreg.n_FacId from FacilityBooking f where f.ngofacreg.n_FacId=:facbkid";
+		Query qry = manager.createQuery(strqry);
+		qry.setParameter("facbkid", nfacId);
+		List<Integer> list = qry.getResultList();
+		int count=list.size();
+		return count;
 	}
 
 	
-	
 
-	
+	@Transactional(propagation=Propagation.REQUIRED)
+	public boolean postFacBooking(FacilityBooking facbk) throws WpException {
+		boolean b =false;
+		int nfacId=facbk.getNgofacreg();
+		String strqry = "select n from NgoFacReg n where n.n_FacId=:facbkid";
+		Query qry = manager.createQuery(strqry);
+		qry.setParameter("facbkid", nfacId);
+		NgoFacReg reg = (NgoFacReg) qry.getSingleResult();
+		int capacity = reg.getN_FacCapacity();
+		String strqry1 = "select f.ngofacreg from FacilityBooking f where f.ngofacreg=:facbkid";
+		Query qry1 = manager.createQuery(strqry1);
+		qry1.setParameter("facbkid", nfacId);
+		List<Integer> list = qry1.getResultList();
+		int count=list.size();
+		if(count<=capacity) {
+			manager.persist(facbk);
+			b = true;
+		}
+			
+		return b;
+	}
+
 }
