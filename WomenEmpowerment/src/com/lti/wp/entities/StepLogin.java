@@ -65,9 +65,9 @@ public class StepLogin {
 	@Column(name = "USER_ID")
 	private int userId;
 
-	@OneToOne(fetch = FetchType.EAGER)
+	/*@OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "USER_ID")
-	private StepRegister register;
+	private StepRegister register;*/
 	
 	/*@JsonIgnore
 	@OneToMany(
@@ -96,7 +96,7 @@ public class StepLogin {
 		this.maritial_Status = maritial_Status;
 		this.highest_Qualification = highest_Qualification;
 		this.userId = userId;
-		this.register = register;
+//		this.register = register;
 //		this.facilitybooking = facilitybooking;
 	}
 
@@ -180,7 +180,7 @@ public class StepLogin {
 		this.userId = userId;
 	}
 
-	public StepRegister getRegister() {
+	/*public StepRegister getRegister() {
 		return register;
 	}
 
@@ -188,7 +188,7 @@ public class StepLogin {
 		this.register = register;
 	}
 
-	/*public List<FacilityBooking> getFacilitybooking() {
+	public List<FacilityBooking> getFacilitybooking() {
 		return facilitybooking;
 	}
 

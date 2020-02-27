@@ -45,11 +45,11 @@ public class StepRegister {
 	@Column(name="USER_PASSWORD")
 	private String password;
 
-	@OneToOne(
+	/*@OneToOne(
 			fetch = FetchType.EAGER,
             cascade =  CascadeType.ALL,
             mappedBy = "register")
-	private StepLogin login;
+	private StepLogin login;*/
 
 	public StepRegister() {
 		super();
@@ -62,7 +62,7 @@ public class StepRegister {
 		this.email = email;
 		this.userDob = userDob;
 		this.password = password;
-		this.login = login;
+//		this.login = login;
 	}
 
 	public int getUserid() {
@@ -105,13 +105,13 @@ public class StepRegister {
 		this.password = password;
 	}
 
-	public StepLogin getLogin() {
+	/*public StepLogin getLogin() {
 		return login;
 	}
 
 	public void setLogin(StepLogin login) {
 		this.login = login;
-	}
+	}*/
 
 	/*@Override
 	public String toString() {
